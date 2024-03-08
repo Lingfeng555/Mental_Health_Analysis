@@ -49,8 +49,7 @@ Suicide_Per_Country <- data.frame(
   Lower = Suicide_Per_Country$VALUE_NUMERIC_LOWER
 )
 
-Happiness15_19 <- list(Happiness2015 = read.csv("RawDatasets/Hapiness/2015.csv"), 
-                       Happiness2016 = read.csv("RawDatasets/Hapiness/2016.csv"), 
-                       Happiness2017 = read.csv("RawDatasets/Hapiness/2017.csv"), 
-                       Happiness2018 = read.csv("RawDatasets/Hapiness/2018.csv"), 
-                       Happiness2019 = read.csv("RawDatasets/Hapiness/2019.csv")) 
+# happiness dataframe full
+hapy <- readxl::read_xlsx("RawDatasets/Hapiness/all_years.xlsx")
+hapycut <- hapy[,1:10]
+print(hapy)
