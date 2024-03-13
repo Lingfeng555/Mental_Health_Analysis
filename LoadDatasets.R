@@ -43,7 +43,7 @@ Pib_Per_Country <- read.csv(
   dec = "."
 )
 
-# In this case wo only keep the information of years and remove useless information such as the code of each country
+# In this case we only keep the information of years and remove useless information such as the code of each country
 Pib_Per_Country <- data.frame(
   Currency = Pib_Per_Country$Series.Name,
   Country = Pib_Per_Country$Country.Name,
@@ -62,7 +62,7 @@ Pib_Per_Country <- data.frame(
 # Read raw data of the suicide of each country
 Suicide_Per_Country <- read.csv("RawDatasets/Suicide_Per_Country.csv")
 
-# Keep colums that can be useful and remove others
+# Keep column that can be useful and remove others
 Suicide_Per_Country <- data.frame(
   Country = Suicide_Per_Country$GEO_NAME_SHORT,
   Year = Suicide_Per_Country$DIM_TIME,
@@ -73,14 +73,26 @@ Suicide_Per_Country <- data.frame(
   Lower = Suicide_Per_Country$VALUE_NUMERIC_LOWER
 )
 
-# Hapiness dataframe
+# Happiness dataframe
 happiness <- readxl::read_xlsx("RawDatasets/Hapiness/all_years.xlsx")
 # Remove useless columns
 happiness <- happiness[,1:10]
-happiness$Gov_Corruption <- as.numeric(happiness$Gov_Corruption) # cast a string column to numerics
+happiness$Gov_Corruption <- as.numeric(happiness$Gov_Corruption) # cast a string column to numeric
 
+# This dataframe shows indicators, for example France has 1.05 in life expectancy, that doesn't means that the average life expectancy is 1.05 years. 
+# The score column is the happiness rating based on the other variables in the data frame
+# Column such as Gov_Corruption and Generosity is a percentage 1=100% and 0=0%
 summary(happiness)
+
+# Nothing special, just show the educational level of each country in 2022
 summary(Iq_Per_Country)
+
+# All columns are percentages over 100 -> 2.05 = 1.05%
 summary(Mental_Disorders)
+
+# This is a dataframe that contains a absolute number of PIB, it has to be normalized
 summary(Pib_Per_Country)
+
+# This dataframe contains the number of suicide deaths in a year, divided by the population and multiplied by 100 000, with a lower and upper bound
+# The data is splited by gender
 summary(Suicide_Per_Country)
