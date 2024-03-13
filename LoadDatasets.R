@@ -83,9 +83,14 @@ happiness$Gov_Corruption <- as.numeric(happiness$Gov_Corruption) # cast a string
 # The score column is the happiness rating based on the other variables in the data frame
 # Column such as Gov_Corruption and Generosity is a percentage 1=100% and 0=0%
 summary(happiness)
+boxplot(happiness$Score) #No outliers
 
 # Nothing special, just show the educational level of each country in 2022
+# CAREFULL, IQ rating doesn't mean more intelligent, only a higher lever of education
 summary(Iq_Per_Country)
+boxplot(Iq_Per_Country$Pisa2022Math) #No outliers
+boxplot(Iq_Per_Country$Pisa2022Read) #No outliers
+boxplot(Iq_Per_Country$Pisa2022Read.1) #No outliers
 
 # All columns are percentages over 100 -> 2.05 = 1.05%
 summary(Mental_Disorders)
@@ -94,11 +99,12 @@ summary(Mental_Disorders)
 summary(Pib_Per_Country)
 
 # This boxplot clearly shows that the most countries are poor and only few countries are rich, for this cases the boxplot are not the best way to find outliers 
-# because all European countries would be considered as a outlier
+# There is a huge biases
 boxplot(Pib_Per_Country$Y2022)
 
 # This dataframe contains the number of suicide deaths in a year, divided by the population and multiplied by 100 000, with a lower and upper bound
 # The bounds exists because in some country is not very clear because of political reasons. 
 # For example Japan were reporting suicide as homicide, due to the country reputation, and Russia reporting homicide as suicide for the political situation
-# The data is spited by gender, only women and men accounts
+# The data is spited by gender, and age range
 summary(Suicide_Per_Country)
+boxplot(Suicide_Per_Country$Number) #The is a lot of outliers but, the majoity is because the data is splited in diferent age range. But there is also a lot of real outliers too
