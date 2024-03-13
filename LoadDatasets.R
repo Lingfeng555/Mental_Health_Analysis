@@ -93,6 +93,12 @@ summary(Mental_Disorders)
 # This is a dataframe that contains a absolute number of PIB, it has to be normalized
 summary(Pib_Per_Country)
 
+# This boxplot clearly shows that the most countries are poor and only few countries are rich, for this cases the boxplot are not the best way to find outliers 
+# because all European countries would be considered as a outlier
+boxplot(Pib_Per_Country$Y2022)
+
 # This dataframe contains the number of suicide deaths in a year, divided by the population and multiplied by 100 000, with a lower and upper bound
-# The data is splited by gender
+# The bounds exists because in some country is not very clear because of political reasons. 
+# For example Japan were reporting suicide as homicide, due to the country reputation, and Russia reporting homicide as suicide for the political situation
+# The data is spited by gender, only women and men accounts
 summary(Suicide_Per_Country)
