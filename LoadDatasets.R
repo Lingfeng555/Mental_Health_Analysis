@@ -12,7 +12,7 @@ Iq_Per_Country <- data.frame(
   Country = Iq_Per_Country$country,
   Pisa2022Math = Iq_Per_Country$AverageIQPISA2022MeanScoreMathematics,
   Pisa2022Read = Iq_Per_Country$AverageIQPISA2022MeanScoreReading,
-  Pisa2022Read = Iq_Per_Country$AverageIQPISA2022MeanScoreScience
+  Pisa2022Science = Iq_Per_Country$AverageIQPISA2022MeanScoreScience
 )
 # Read the CSV of mental disorder, gives us a raw data
 Mental_Disorders <- read.csv(
@@ -90,7 +90,7 @@ boxplot(happiness$Score) #No outliers
 summary(Iq_Per_Country)
 boxplot(Iq_Per_Country$Pisa2022Math) #No outliers
 boxplot(Iq_Per_Country$Pisa2022Read) #No outliers
-boxplot(Iq_Per_Country$Pisa2022Read.1) #No outliers
+boxplot(Iq_Per_Country$Pisa2022Science) #No outliers
 
 # All columns are percentages over 100 -> 2.05 = 1.05%
 summary(Mental_Disorders)
