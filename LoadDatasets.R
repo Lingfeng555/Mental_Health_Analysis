@@ -3,7 +3,7 @@ library(readxl) #Read
 
 # In general we want to keep the information of each year so that we can check that if variables are correlated in a some way
 # Also change the names of the columns so it is easier to understand
-# It is very important that consider IQ stats as the educational level, so the poorest countries has lower IQ but that doesn't means that they are less intelligent
+# There is some key points for some dataset that is documented so any of us can understand all the dataframe by only consult this script
 
 # This csv gives a raw dataset
 # Remove few column and just keep the 2022 stats as a reference, and remove useless columns
@@ -86,25 +86,18 @@ summary(happiness)
 boxplot(happiness$Score) #No outliers
 
 # Nothing special, just show the educational level of each country in 2022
-# CAREFULL, IQ rating doesn't mean more intelligent, only a higher lever of education
 summary(Iq_Per_Country)
 boxplot(Iq_Per_Country$Pisa2022Math) #No outliers
 boxplot(Iq_Per_Country$Pisa2022Read) #No outliers
 boxplot(Iq_Per_Country$Pisa2022Science) #No outliers
 
-# All columns are percentages over 100 -> 2.05 = 1.05%
+# All columns are percentages over 100 -> 2.05 = 2.05%
 summary(Mental_Disorders)
 
 # This is a dataframe that contains a absolute number of PIB, it has to be normalized
 summary(Pib_Per_Country)
-
-# This boxplot clearly shows that the most countries are poor and only few countries are rich, for this cases the boxplot are not the best way to find outliers 
-# There is a huge biases
 boxplot(Pib_Per_Country$Y2022)
 
 # This dataframe contains the number of suicide deaths in a year, divided by the population and multiplied by 100 000, with a lower and upper bound
-# The bounds exists because in some country is not very clear because of political reasons. 
-# For example Japan were reporting suicide as homicide, due to the country reputation, and Russia reporting homicide as suicide for the political situation
-# The data is spited by gender, and age range
 summary(Suicide_Per_Country)
 boxplot(Suicide_Per_Country$Number) #The is a lot of outliers but, the majoity is because the data is splited in diferent age range. But there is also a lot of real outliers too
