@@ -10,10 +10,12 @@ library(readxl) #Read
 Iq_Per_Country <- read.csv("RawDatasets/IQ_Per_Country.csv")
 Iq_Per_Country <- data.frame(
   Country = Iq_Per_Country$country,
+  Iq_byLynnBecker = Iq_Per_Country$averageIqByCountry_iqLynnBecker2019,
   Pisa2022Math = Iq_Per_Country$AverageIQPISA2022MeanScoreMathematics,
   Pisa2022Read = Iq_Per_Country$AverageIQPISA2022MeanScoreReading,
   Pisa2022Science = Iq_Per_Country$AverageIQPISA2022MeanScoreScience
 )
+
 # Read the CSV of mental disorder, gives us a raw data
 Mental_Disorders <- read.csv(
   file = "RawDatasets/Mental_Disorders_For_Coutries_Per_Year.csv",
