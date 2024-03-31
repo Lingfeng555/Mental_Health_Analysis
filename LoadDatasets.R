@@ -1,5 +1,9 @@
 # Imports
-library(readxl) #Read
+Load_Libraries <- function(packages){
+  newpack  = packages[!(packages %in% installed.packages()[,"Package"])]
+  if(length(newpack)) install.packages(newpack)
+}
+c("readxl") %>% Load_Libraries
 
 # In general we want to keep the information of each year so that we can check that if variables are correlated in a some way
 # Also change the names of the columns so it is easier to understand
@@ -39,26 +43,20 @@ Mental_Disorders <- data.frame(
 )
 
 # Read the CSV of PIB, gives us a raw data
-Pib_Per_Country <- read.csv(
-  file = "RawDatasets/PIB_Per_Country_Per_Year.csv",
-  na.strings = "..",
-  dec = "."
-)
+GDP_Per_Capita <- read.csv("RawDatasets/GDP_Per_Capita.csv")
 
 # In this case we only keep the information of years and remove useless information such as the code of each country
-Pib_Per_Country <- data.frame(
-  Currency = Pib_Per_Country$Series.Name,
-  Country = Pib_Per_Country$Country.Name,
-  Y2013 = Pib_Per_Country$X2013..YR2013.,
-  Y2014 = Pib_Per_Country$X2014..YR2014.,
-  Y2015 = Pib_Per_Country$X2015..YR2015.,
-  Y2016 = Pib_Per_Country$X2016..YR2016.,
-  Y2017 = Pib_Per_Country$X2017..YR2017.,
-  Y2018 = Pib_Per_Country$X2018..YR2018.,
-  Y2019 = Pib_Per_Country$X2019..YR2019.,
-  Y2020 = Pib_Per_Country$X2020..YR2020.,
-  Y2021 = Pib_Per_Country$X2021..YR2021.,
-   Y2022 = Pib_Per_Country$X2022..YR2022.
+GDP_Per_Capita <- data.frame(
+  Country = GDP_Per_Capita$Country.Name,
+  Y2013 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2013)),
+  Y2014 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2014)),
+  Y2015 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2015)),
+  Y2016 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2016)),
+  Y2017 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2017)),
+  Y2018 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2018)),
+  Y2019 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2019)),
+  Y2020 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2020)),
+  Y2021 = as.numeric(gsub(",", ".", GDP_Per_Capita$X2021))
 )
 
 # Read raw data of the suicide of each country
@@ -97,8 +95,7 @@ boxplot(Iq_Per_Country$Pisa2022Science) #No outliers
 summary(Mental_Disorders)
 
 # This is a dataframe that contains a absolute number of PIB, it has to be normalized
-summary(Pib_Per_Country)
-boxplot(Pib_Per_Country$Y2022)
+summary(GDP_Per_Capita)
 
 # This dataframe contains the number of suicide deaths in a year, divided by the population and multiplied by 100 000, with a lower and upper bound
 summary(Suicide_Per_Country)
