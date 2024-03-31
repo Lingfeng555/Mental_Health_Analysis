@@ -9,7 +9,7 @@ Load_Libraries <- function(packages){
   lapply(packages, library, character.only=TRUE)
 }
 
-c("forecast") %>% Load_Libraries
+Load_Libraries(c("forecast", "dplyr"))
 
 normalize <- function(data) ((data - min(data)) / (max(data) - min(data)))
 
@@ -37,6 +37,7 @@ process_Disorders <- function(rawDisorders){
 
 Interpolate_Na <- function (rawGDP){
   na_missing <- which(is.na(rawGDP$Y2021))
+  print(na_missing)
   rawGDP
 } 
 

@@ -3,7 +3,7 @@ Load_Libraries <- function(packages){
   newpack  = packages[!(packages %in% installed.packages()[,"Package"])]
   if(length(newpack)) install.packages(newpack)
 }
-c("readxl") %>% Load_Libraries
+Load_Libraries(c("readxl", "dplyr"))
 
 # In general we want to keep the information of each year so that we can check that if variables are correlated in a some way
 # Also change the names of the columns so it is easier to understand
