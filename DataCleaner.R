@@ -28,6 +28,10 @@ process_Iq <- function(rawIq){
 }
 
 process_Disorders <- function(rawDisorders){
+  
+  # Normalize data columns (All columns except country and year)
+  rawDisorders[,3:9] <- apply(rawDisorders[,3:9], 2, normalize)
+  
   rawDisorders
 }
 
