@@ -1,6 +1,4 @@
 #Check if there is any global variables loaded, if not if call the script to load them
-setwd(as.character(getwd()))
-
 if( length(ls()) == 0 ){
   source(paste(as.character(getwd()), "/LoadDatasets.R", sep = ""))
 }
@@ -106,11 +104,44 @@ process_GDP <- function(rawGDP){
 }
 
 process_Suicide <- function(rawSuicide){
-  rawSuicide 
+  rawSuicide
 }
 
+#Process all datasets
 happiness <- process_Hapiness(happiness)
 Iq_Per_Country <- process_Iq(Iq_Per_Country)
 Mental_Disorders <- process_Disorders(Mental_Disorders)
 GDP_Per_Capita <- process_GDP(GDP_Per_Capita)
 Suicide_Per_Country <- process_Suicide(Suicide_Per_Country)
+
+MERGE <- function(){
+  #We will only consider 2017
+  happiness <- happiness[happiness$Year == 2017,]
+  happiness$Year <- NULL
+  happiness$GDP_Capita <- NULL
+  colnames(happiness)[2] <- "Happiness"
+  
+  GDP_Per_Capita <- data.frame(
+    Country = GDP_Per_Capita$Country,
+    GDP_Per_Capita = GDP_Per_Capita$Y2017
+  )
+  
+  Iq_Per_Country <- data.frame(
+    Country = Iq_Per_Country$Country,
+    IQ = Iq_Per_Country$Iq_byLynnBecker,
+    Math = Iq_Per_Country$Pisa2022Math,
+    Science = Iq_Per_Country$Pisa2022Science,
+    Read = Iq_Per_Country$Pisa2022Read
+  )
+  
+  Mental_Disorders <- Mental_Disorders[Mental_Disorders$Year==2017,]
+  Mental_Disorders$Year <- NULL
+  
+  ret <- merge(happiness, GDP_Per_Capita, by = "Country")
+  ret <- merge(ret, Mental_Disorders, by = "Country")
+  ret <- merge(ret, Iq_Per_Country, by = "Country")
+  return(ret)
+}
+
+MENTAL_HEALTH <- MERGE()
+rm(GDP_Per_Capita,happiness,Iq_Per_Country, Mental_Disorders)
