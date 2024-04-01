@@ -1,4 +1,6 @@
 #Check if there is any global variables loaded, if not if call the script to load them
+setwd(as.character(getwd()))
+
 if( length(ls()) == 0 ){
   source(paste(as.character(getwd()), "/LoadDatasets.R", sep = ""))
 }
@@ -43,12 +45,6 @@ process_Iq <- function(rawIq){
   rawIq[is.na(Iq_Per_Country)] <- "Unknown"
   # Normalize data columns
   rawIq[,2] <- apply(Iq_Per_Country[, "Iq_byLynnBecker", drop = FALSE], 2, normalize)
-  
-  rawIq$Very_Low <- ifelse(rawIq$Pisa2022Math == "Very Low", 1, 0)
-  rawIq$Low <- ifelse(rawIq$Pisa2022Math == "Low", 1, 0)
-  rawIq$High <- ifelse(rawIq$Pisa2022Math == "High", 1, 0)
-  rawIq$Very_High <- ifelse(rawIq$Pisa2022Math == "Very High", 1, 0)
-  rawIq$Unknown <- ifelse(rawIq$Pisa2022Math == "Unknown", 1, 0)
   
   rawIq
 }
