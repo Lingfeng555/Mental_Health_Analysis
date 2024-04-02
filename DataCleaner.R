@@ -124,7 +124,7 @@ nonads <- nonads%>% mutate(VALUE_NUMERIC_UPPER = coalesce(VALUE_NUMERIC_UPPER, V
 #We are only considering 2017
 reduceds<-nonads[nonads$DIM_TIME == 2017,]
 reduceds<- reduceds %>% filter(DIM_SEX == "Total")
-finalds<- reduceds %>% select(-c(DIM_SEX,DIM_TIME))
+rawSuicide<- reduceds %>% select(-c(DIM_SEX,DIM_TIME))
   rawSuicide
 }
 
