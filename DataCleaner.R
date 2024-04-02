@@ -104,6 +104,27 @@ process_GDP <- function(rawGDP){
 }
 
 process_Suicide <- function(rawSuicide){
+if (!any(rawSuicide$IND_UUID != "16BBF41")) 
+  cleanerds<-select(rawSuicide, -IND_UUID)
+if(!any(rawSuicide$IND_NAME != "Suicide deaths"))
+  cleanerds<-select(cleanerds, -IND_NAME)
+if(!any(rawSuicide$IND_CODE != "SDGSUICIDE"))
+  cleanerds<-select(cleanerds, -IND_CODE)
+if(all(!is.na(rawSuicide$GEO_NAME_SHORT)))
+  cleanerds<-select(cleanerds, -DIM_GEO_CODE_M49)
+if(!any(rawSuicide$DIM_TIME_TYPE != "YEAR"))
+  cleanerds<-select(cleanerds, -DIM_TIME_TYPE)
+if(!any(rawSuicide$DIM_VALUE_TYPE != "RATE_PER_100000"))
+  cleanerds<-select(cleanerds, -DIM_VALUE_TYPE)
+if(!any(rawSuicide$DIM_PUBLISH_STATE_CODE != "PUBLISHED"))
+  cleanerds<-select(cleanerds, -DIM_PUBLISH_STATE_CODE)
+ordereds<-cleanerds %>% select( GEO_NAME_SHORT, DIM_TIME, VALUE_NUMERIC, VALUE_NUMERIC_LOWER, VALUE_NUMERIC_UPPER, DIM_SEX) 
+nonads <- ordereds%>% mutate(VALUE_NUMERIC_LOWER = coalesce(VALUE_NUMERIC_LOWER, VALUE_NUMERIC))
+nonads <- nonads%>% mutate(VALUE_NUMERIC_UPPER = coalesce(VALUE_NUMERIC_UPPER, VALUE_NUMERIC))
+#We are only considering 2017
+reduceds<-nonads[nonads$DIM_TIME == 2017,]
+reduceds<- reduceds %>% filter(DIM_SEX == "Total")
+finalds<- reduceds %>% select(-c(DIM_SEX,DIM_TIME))
   rawSuicide
 }
 
@@ -136,12 +157,20 @@ MERGE <- function(){
   
   Mental_Disorders <- Mental_Disorders[Mental_Disorders$Year==2017,]
   Mental_Disorders$Year <- NULL
-  
+
+  Suicide_Per_Country<-data.frame(
+   Country = Suicide_Per_Country$GEO_NAME_SHORT,
+   Rate = Suicide_Per_Country$VALUE_NUMERIC,
+   Upper_Rate = Suicide_Per_Country$VALUE_NUMERIC_UPPER,
+   Lower_Rate = Suicide_Per_Country$VALUE_NUMERIC_LOWER
+  )
+    
   ret <- merge(happiness, GDP_Per_Capita, by = "Country")
   ret <- merge(ret, Mental_Disorders, by = "Country")
   ret <- merge(ret, Iq_Per_Country, by = "Country")
+  ret <- merge(ret, Suicide_Per_Country, by ="Country")
   return(ret)
 }
 
 MENTAL_HEALTH <- MERGE()
-rm(GDP_Per_Capita,happiness,Iq_Per_Country, Mental_Disorders)
+rm(GDP_Per_Capita,happiness,Iq_Per_Country, Mental_Disorders, Suicide_Per_Country)
