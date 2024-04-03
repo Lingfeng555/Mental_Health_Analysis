@@ -11,18 +11,18 @@ Load_Libraries(c("readxl", "dplyr"))
 
 # This csv gives a raw dataset
 # Remove few column and just keep the 2022 stats as a reference, and remove useless columns
-Iq_Per_Country <- read.csv("RawDatasets/IQ_Per_Country.csv")
+Iq_Per_Country <- read.csv("Init/RawDatasets/IQ_Per_Country.csv")
 Iq_Per_Country <- data.frame(
   Country = Iq_Per_Country$country,
-  Iq_byLynnBecker = Iq_Per_Country$averageIqByCountry_iqLynnBecker2019,
-  Pisa2022Math = Iq_Per_Country$AverageIQPISA2022MeanScoreMathematics,
-  Pisa2022Read = Iq_Per_Country$AverageIQPISA2022MeanScoreReading,
-  Pisa2022Science = Iq_Per_Country$AverageIQPISA2022MeanScoreScience
+  Iq_byLynnBecker = as.numeric(Iq_Per_Country$averageIqByCountry_iqLynnBecker2019),
+  Pisa2022Math = as.numeric(Iq_Per_Country$PISAScoresMathScore2022),
+  Pisa2022Read = as.numeric(Iq_Per_Country$PISAScoresReadingScore2022),
+  Pisa2022Science = as.numeric(Iq_Per_Country$PISAScoresScienceScore2022)
 )
 
 # Read the CSV of mental disorder, gives us a raw data
 Mental_Disorders <- read.csv(
-  file = "RawDatasets/Mental_Disorders_For_Coutries_Per_Year.csv",
+  file = "Init/RawDatasets/Mental_Disorders_For_Coutries_Per_Year.csv",
   dec = "."
 )
 
@@ -43,7 +43,7 @@ Mental_Disorders <- data.frame(
 )
 
 # Read the CSV of PIB, gives us a raw data
-GDP_Per_Capita <- read.csv("RawDatasets/GDP_Per_Capita.csv")
+GDP_Per_Capita <- read.csv("Init/RawDatasets/GDP_Per_Capita.csv")
 
 # In this case we only keep the information of years and remove useless information such as the code of each country
 GDP_Per_Capita <- data.frame(
@@ -60,7 +60,7 @@ GDP_Per_Capita <- data.frame(
 )
 
 # Read raw data of the suicide of each country
-Suicide_Per_Country <- read.csv("RawDatasets/Suicide_Per_Country.csv")
+Suicide_Per_Country <- read.csv("Init/RawDatasets/Suicide_Per_Country.csv")
 
 # Keep column that can be useful and remove others
 Suicide_Per_Country <- data.frame(
@@ -74,7 +74,7 @@ Suicide_Per_Country <- data.frame(
 )
 
 # Happiness dataframe
-happiness <- readxl::read_xlsx("RawDatasets/Hapiness/all_years.xlsx")
+happiness <- readxl::read_xlsx("Init/RawDatasets/Hapiness/all_years.xlsx")
 # Remove useless columns
 happiness <- happiness[,1:10]
 happiness$Gov_Corruption <- as.numeric(happiness$Gov_Corruption) # cast a string column to numeric
