@@ -29,25 +29,33 @@ Load_Libraries(c("dplyr", "faraway"))
 #                         GDP_Per_Capita + 
 #                         IQ + 
 #                         Math + Science + Read, MENTAL_HEALTH)
-print("BEFORE DEPRESSION_MODEL")
-anova(DEPRESSION_MODEL)
-DEPRESSION_MODEL <- lm(Depression ~ Life_Expectancy + 
-                 Gov_Corruption + 
-                 Generosity + 
-                 GDP_Per_Capita + 
-                 Math, MENTAL_HEALTH) 
-print("AFTER DEPRESSION_MODEL")
-anova(DEPRESSION_MODEL)
+# ----------------------------------------------------------------------------------------------------------------------------
+# print("BEFORE DEPRESSION_MODEL")
+# anova(DEPRESSION_MODEL)
+# DEPRESSION_MODEL <- lm(Depression ~ Life_Expectancy +
+#                  Gov_Corruption +
+#                  Generosity +
+#                  GDP_Per_Capita +
+#                  Math, MENTAL_HEALTH)
+# print("AFTER DEPRESSION_MODEL")
+# anova(DEPRESSION_MODEL)
+# 
+# # We can notice that there is a Low F- value of Science and Read, which means that there is a low relation between these variables and Depression
+# # Suprinsingly there is a very low F value between IQ and Depression which means there may be no relationship between these variables
 
-# We can notice that there is a Low F- value of Science and Read, which means that there is a low relation between these variables and Depression
-# Suprinsingly there is a very low F value between IQ and Depression which means there may be no relationship between these variables
+# ----------------------------------------------------------------------------------------------------------------------------
+# Removed Life_Expectancy
+# Removed Generosity
+HAPPINESS_MODEL <- lm(Happiness ~ Freedom + 
+                        Gov_Corruption + 
+                        GDP_Per_Capita + 
+                        IQ + 
+                        Math + Read, MENTAL_HEALTH)
+anova(HAPPINESS_MODEL)
 
-print("BEFORE DEPRESSION_MODEL")
-anova(DEPRESSION_MODEL)
-DEPRESSION_MODEL <- lm(Depression ~ Life_Expectancy + 
-                         Gov_Corruption + 
-                         Generosity + 
-                         GDP_Per_Capita + 
-                         Math, MENTAL_HEALTH) 
-print("AFTER DEPRESSION_MODEL")
-anova(DEPRESSION_MODEL)
+# 1. By looking at coefficients at first the only coefficient that seems significant is the Life_Expectancy
+# 2. After looking at the anova test with all the variables, we can see that the F-value is very low for Generosity as well as having a confidence interval that is out of expectations.
+# 3. After taking a closer look at Life_Expectancy, we can see that the confidence interval is almost zero as well as having an F value several times higher compared to others.
+# 4. Finally the only other variable that we will be removing is Science due to similar reasons as Generosity.
+# 5. All variables are the perception of the citizens of the country (ej. High Freedom = Satisfied with the freedom in the country, 
+# High Gov_Corruption = Many people perceives that the government is corrupt)
