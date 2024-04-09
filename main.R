@@ -30,14 +30,14 @@ Load_Libraries(c("dplyr", "faraway"))
 #                         IQ + 
 #                         Math + Science + Read, MENTAL_HEALTH)
 # ----------------------------------------------------------------------------------------------------------------------------
-# print("BEFORE DEPRESSION_MODEL")
-# anova(DEPRESSION_MODEL)
-# DEPRESSION_MODEL <- lm(Depression ~ Life_Expectancy +
-#                  Gov_Corruption +
-#                  Generosity +
-#                  GDP_Per_Capita +
-#                  Math, MENTAL_HEALTH)
-# print("AFTER DEPRESSION_MODEL")
+ print("BEFORE DEPRESSION_MODEL")
+ anova(DEPRESSION_MODEL)
+ DEPRESSION_MODEL <- lm(Depression ~ Life_Expectancy +
+                  Gov_Corruption +
+                  Generosity +
+                  GDP_Per_Capita +
+                  Math, MENTAL_HEALTH)
+ print("AFTER DEPRESSION_MODEL")
 # anova(DEPRESSION_MODEL)
 # 
 # # We can notice that there is a Low F- value of Science and Read, which means that there is a low relation between these variables and Depression
