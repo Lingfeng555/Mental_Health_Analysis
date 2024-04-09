@@ -44,7 +44,6 @@ Load_Libraries(c("dplyr", "faraway"))
 # # Suprinsingly there is a very low F value between IQ and Depression which means there may be no relationship between these variables
 
 # ----------------------------------------------------------------------------------------------------------------------------
-# Removed Life_Expectancy
 # Removed Generosity
 HAPPINESS_MODEL <- lm(Happiness ~ Life_Expectancy + 
                         Freedom + 
@@ -56,9 +55,8 @@ anova(HAPPINESS_MODEL)
 
 # 1. By looking at coefficients at first the only coefficient that seems significant is the Life_Expectancy
 # 2. After looking at the anova test with all the variables, we can see that the F-value is very low for Generosity as well as having a confidence interval that is out of expectations.
-# 3. After taking a closer look at Life_Expectancy, we can see that the confidence interval is almost zero as well as having an F value several times higher compared to others.
-# 4. Finally the only other variable that we will be removing is Science due to similar reasons as Generosity.
-# 5. All variables are the perception of the citizens of the country (ej. High Freedom = Satisfied with the freedom in the country, 
+# 3. Finally the only other variable that we will be removing is Science due to similar reasons as Generosity.
+# 4. All variables are the perception of the citizens of the country (ej. High Freedom = Satisfied with the freedom in the country, 
 # High Gov_Corruption = Many people perceives that the government is corrupt)
 
 ANXIETY_MODEL <- lm(Anxiety ~ Life_Expectancy + 
