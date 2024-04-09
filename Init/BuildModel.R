@@ -77,6 +77,7 @@ ANXIETY_MODEL <- lm(Anxiety ~ Life_Expectancy +
                               GDP_Per_Capita + 
                               IQ + 
                               Math + Science + Read, MENTAL_HEALTH)
+
 FEMALE_SUICIDE_MODEL <- lm(Suicide_Female ~ Life_Expectancy + 
                                       Freedom + 
                                       Gov_Corruption + 
