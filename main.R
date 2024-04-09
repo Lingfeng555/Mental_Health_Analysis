@@ -59,3 +59,26 @@ anova(HAPPINESS_MODEL)
 # 4. Finally the only other variable that we will be removing is Science due to similar reasons as Generosity.
 # 5. All variables are the perception of the citizens of the country (ej. High Freedom = Satisfied with the freedom in the country, 
 # High Gov_Corruption = Many people perceives that the government is corrupt)
+
+ANXIETY_MODEL <- lm(Anxiety ~ Life_Expectancy + 
+                      Gov_Corruption + 
+                      GDP_Per_Capita, MENTAL_HEALTH)
+
+anova(ANXIETY_MODEL)
+
+FEMALE_SUICIDE_MODEL <- lm(Suicide_Female ~ Gov_Corruption + 
+                             Generosity + 
+                             GDP_Per_Capita + 
+                             IQ + 
+                             Math, MENTAL_HEALTH)
+anova(FEMALE_SUICIDE_MODEL)
+
+
+MALE_SUICIDE_MODEL <- lm(Suicide_Male ~ 
+                           Generosity + 
+                           GDP_Per_Capita + 
+                           IQ + 
+                           Math, MENTAL_HEALTH)
+# Generosity and GDP_Per_Capita can be removed, but we need Chinese guy's aprobation
+
+anova(MALE_SUICIDE_MODEL)
