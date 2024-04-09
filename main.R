@@ -46,7 +46,8 @@ Load_Libraries(c("dplyr", "faraway"))
 # ----------------------------------------------------------------------------------------------------------------------------
 # Removed Life_Expectancy
 # Removed Generosity
-HAPPINESS_MODEL <- lm(Happiness ~ Freedom + 
+HAPPINESS_MODEL <- lm(Happiness ~ Life_Expectancy + 
+                        Freedom + 
                         Gov_Corruption + 
                         GDP_Per_Capita + 
                         IQ + 
