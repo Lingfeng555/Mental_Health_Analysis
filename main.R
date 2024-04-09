@@ -45,18 +45,20 @@ Load_Libraries(c("dplyr", "faraway"))
 
 # ----------------------------------------------------------------------------------------------------------------------------
 # Removed Generosity
+# Removed Science
+# Removed IQ
 HAPPINESS_MODEL <- lm(Happiness ~ Life_Expectancy + 
                         Freedom + 
                         Gov_Corruption + 
                         GDP_Per_Capita + 
-                        IQ + 
                         Math + Read, MENTAL_HEALTH)
 anova(HAPPINESS_MODEL)
 
 # 1. By looking at coefficients at first the only coefficient that seems significant is the Life_Expectancy
 # 2. After looking at the anova test with all the variables, we can see that the F-value is very low for Generosity as well as having a confidence interval that is out of expectations.
-# 3. Finally the only other variable that we will be removing is Science due to similar reasons as Generosity.
-# 4. All variables are the perception of the citizens of the country (ej. High Freedom = Satisfied with the freedom in the country, 
+# 3. Another variable that we will be removing is Science due to similar reasons as Generosity.
+# 4. Finally the only other variable that will be removed will be IQ due to similar reasons.
+# 5. All variables are the perception of the citizens of the country (ej. High Freedom = Satisfied with the freedom in the country, 
 # High Gov_Corruption = Many people perceives that the government is corrupt)
 
 ANXIETY_MODEL <- lm(Anxiety ~ Life_Expectancy + 
