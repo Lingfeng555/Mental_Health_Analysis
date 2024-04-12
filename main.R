@@ -108,7 +108,9 @@ anova(FEMALE_SUICIDE_MODEL)
 # Removed Freedom
 # Removed Life_Expectancy
 
-MALE_SUICIDE_MODEL <- lm(Suicide_Male ~ IQ +
-                           Math, MENTAL_HEALTH)
+MALE_SUICIDE_MODEL <- lm(Suicide_Male ~ Generosity +
+                      GDP_Per_Capita +
+                      IQ +
+                      Math, MENTAL_HEALTH)
 
 anova(MALE_SUICIDE_MODEL)
