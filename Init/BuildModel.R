@@ -47,6 +47,7 @@ MERGE <- function(){
   ret <- merge(ret, Iq_Per_Country, by = "Country")
   
   ret[,2:(ncol(ret)-3)] <- apply(ret[,2:(ncol(ret)-3)], 2, normalize)
+  ret$Happiness <- c(ret$Happiness > mean(ret$Happiness))
   return(ret)
 }
 
@@ -77,6 +78,7 @@ ANXIETY_MODEL <- lm(Anxiety ~ Life_Expectancy +
                               GDP_Per_Capita + 
                               IQ + 
                               Math + Science + Read, MENTAL_HEALTH)
+
 FEMALE_SUICIDE_MODEL <- lm(Suicide_Female ~ Life_Expectancy + 
                                       Freedom + 
                                       Gov_Corruption + 
