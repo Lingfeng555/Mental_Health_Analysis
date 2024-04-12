@@ -46,11 +46,10 @@ Load_Libraries(c("dplyr", "faraway"))
 # ----------------------------------------------------------------------------------------------------------------------------
 # Removed Life_Expectancy
 # Removed Generosity
-HAPPINESS_MODEL <- lm(Happiness ~ Freedom + 
-                        Gov_Corruption + 
-                        GDP_Per_Capita + 
-                        IQ + 
-                        Math + Read, MENTAL_HEALTH)
+HAPPINESS_MODEL <- lm(Happiness ~ Life_Expectancy + 
+                  Freedom + 
+                  Gov_Corruption + 
+                  GDP_Per_Capita , MENTAL_HEALTH) 
 anova(HAPPINESS_MODEL)
 
 # 1. By looking at coefficients at first the only coefficient that seems significant is the Life_Expectancy
