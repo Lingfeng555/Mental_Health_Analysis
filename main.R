@@ -40,8 +40,8 @@ Load_Libraries(c("dplyr", "faraway"))
  print("AFTER DEPRESSION_MODEL")
 # anova(DEPRESSION_MODEL)
 # 
-# # We can notice that there is a Low F- value of Science and Read, which means that there is a low relation between these variables and Depression
-# # Suprinsingly there is a very low F value between IQ and Depression which means there may be no relationship between these variables
+# We can notice that there is a Low F- value of Science and Read, which means that there is a low relation between these variables and Depression
+# Suprinsingly there is a very low F value between IQ and Depression which means there may be no relationship between these variables
 
 # ----------------------------------------------------------------------------------------------------------------------------
 # Removed Generosity
@@ -92,11 +92,25 @@ FEMALE_SUICIDE_MODEL <- lm(Suicide_Female ~ Gov_Corruption +
                              Math, MENTAL_HEALTH)
 anova(FEMALE_SUICIDE_MODEL)
 
+# ----------------------------------------------------------------------------------------------------------------------------
+# MALE_SUICIDE_MODEL <- lm(Suicide_Male ~ Life_Expectancy + 
+#                       Freedom + 
+#                       Gov_Corruption + 
+#                       Generosity + 
+#                       GDP_Per_Capita + 
+#                       IQ + 
+#                       Math + Science + Read, MENTAL_HEALTH)
+# We remove all the variables which P-values are above 0.15
 
-MALE_SUICIDE_MODEL <- lm(Suicide_Male ~ 
-                           Generosity + 
-                           GDP_Per_Capita + 
-                           IQ + 
+# Removed Science
+# Removed Read
+# Removed Gov_Corruption
+# Removed Generosity
+# Removed GDP_Per_Capita
+# Removed Freedom
+# Removed Life_Expectancy
+
+MALE_SUICIDE_MODEL <- lm(Suicide_Male ~ IQ +
                            Math, MENTAL_HEALTH)
 
 anova(MALE_SUICIDE_MODEL)
