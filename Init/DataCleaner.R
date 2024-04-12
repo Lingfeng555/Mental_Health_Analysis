@@ -22,20 +22,20 @@ process_Iq <- function(rawIq){
   
   rawIq <- rawIq[order(rawIq$Country),]
   
-  rawIq$Pisa2022Math <- ifelse(rawIq$Pisa2022Math <= 390, "Very low",
+  rawIq$Pisa2022Math <- ifelse(rawIq$Pisa2022Math <= 390, "VeryLow",
                                         ifelse(rawIq$Pisa2022Math <= 440, "Low",
                                         ifelse(rawIq$Pisa2022Math <= 484, "High", 
-                                        ifelse(rawIq$Pisa2022Math <= 576, "Very High", 0))))
+                                        ifelse(rawIq$Pisa2022Math <= 576, "VeryHigh", 0))))
   
-  rawIq$Pisa2022Read <- ifelse(rawIq$Pisa2022Read <= 385, "Very low",
+  rawIq$Pisa2022Read <- ifelse(rawIq$Pisa2022Read <= 385, "VeryLow",
                                         ifelse(rawIq$Pisa2022Read <= 438, "Low",
                                         ifelse(rawIq$Pisa2022Read <= 481, "High", 
-                                        ifelse(rawIq$Pisa2022Read <= 544, "Very High", 0))))
+                                        ifelse(rawIq$Pisa2022Read <= 544, "VeryHigh", 0))))
   
-  rawIq$Pisa2022Science <- ifelse(rawIq$Pisa2022Science <= 405, "Very low",
+  rawIq$Pisa2022Science <- ifelse(rawIq$Pisa2022Science <= 405, "VeryLow",
                                         ifelse(rawIq$Pisa2022Science <= 448, "Low",
                                         ifelse(rawIq$Pisa2022Science <= 495, "High", 
-                                        ifelse(rawIq$Pisa2022Science <= 562, "Very High", 0))))
+                                        ifelse(rawIq$Pisa2022Science <= 562, "VeryHigh", 0))))
   
   rawIq <- rawIq[!is.na(rawIq$Iq_byLynnBecker),]
   

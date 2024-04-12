@@ -83,6 +83,10 @@ ANXIETY_MODEL <- lm(Anxiety ~ Life_Expectancy +
 anova(ANXIETY_MODEL)
 
 # ----------------------------------------------------------------------------------------------------------------------------
+# Removed Life_Spectancy
+# Removed Read
+# Removed Science
+# Removed Freedom
 FEMALE_SUICIDE_MODEL <- lm(Suicide_Female ~ Gov_Corruption + 
                              Generosity + 
                              GDP_Per_Capita + 
