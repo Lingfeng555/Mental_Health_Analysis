@@ -155,3 +155,73 @@ arrows(x0 = 0,y0 = 0,x1 = correlations[,1],y1=correlations[,2],length=0.1)
 abline(h=0,v=0,lty=2)
 text(correlations[,1],correlations[,2],labels = row.names(correlations),cex=0)
 
+# Create factors with specified levels for Math, Science, and Read variables
+MENTAL_HEALTH$Math <- factor(MENTAL_HEALTH$Math)
+MENTAL_HEALTH$Science <- factor(MENTAL_HEALTH$Science)
+MENTAL_HEALTH$Read <- factor(MENTAL_HEALTH$Read)
+
+# Create a copy of the original dataset
+MENTAL_HEALTH_Categorical <- MENTAL_HEALTH[, c( "Math", "Science", "Read", "Schizophrenia", "Bipolar", "Anxiety", "Eating_Disorders", "Depression", "Alcohol_Related_Disorders","Drug_Related_Disorders", "Suicide_Male", "Suicide_Female" )]
+
+# Calculate the average value for each disorder column
+avg_disorders <- colMeans(MENTAL_HEALTH[, c("Schizophrenia", "Bipolar", "Anxiety", "Eating_Disorders", 
+                                            "Depression", "Alcohol_Related_Disorders", "Drug_Related_Disorders", "Suicide_Male", "Suicide_Female")], na.rm = TRUE)
+
+# Convert the original values to "yes" or "no" based on whether they are above or below the average
+MENTAL_HEALTH_Categorical$Schizophrenia <- factor(ifelse(MENTAL_HEALTH$Schizophrenia > avg_disorders["Schizophrenia"], "yes", "no"))
+MENTAL_HEALTH_Categorical$Bipolar <- factor(ifelse(MENTAL_HEALTH$Bipolar > avg_disorders["Bipolar"], "yes", "no"))
+MENTAL_HEALTH_Categorical$Anxiety <- factor(ifelse(MENTAL_HEALTH$Anxiety > avg_disorders["Anxiety"], "yes", "no"))
+MENTAL_HEALTH_Categorical$Eating_Disorders <- factor(ifelse(MENTAL_HEALTH$Eating_Disorders > avg_disorders["Eating_Disorders"], "yes", "no"))
+MENTAL_HEALTH_Categorical$Depression <- factor(ifelse(MENTAL_HEALTH$Depression > avg_disorders["Depression"], "yes", "no"))
+MENTAL_HEALTH_Categorical$Drug_Related_Disorders <- factor(ifelse(MENTAL_HEALTH$Drug_Related_Disorders > avg_disorders["Drug_Related_Disorders"], "yes", "no"))
+MENTAL_HEALTH_Categorical$Alcohol_Related_Disorders <- factor(ifelse(MENTAL_HEALTH$Alcohol_Related_Disorders > avg_disorders["Alcohol_Related_Disorders"], "yes", "no"))
+MENTAL_HEALTH_Categorical$Suicide_Male <- factor(ifelse(MENTAL_HEALTH$Suicide_Male > avg_disorders["Suicide_Male"], "yes", "no"))
+MENTAL_HEALTH_Categorical$Suicide_Female <- factor(ifelse(MENTAL_HEALTH$Suicide_Female > avg_disorders["Suicide_Female"], "yes", "no"))
+
+
+# Create vectors for row names and column names
+row_names <- c("Math_VeryLow", "Math_Low", "Math_High", "Math_VeryHigh", 
+               "Read_VeryLow", "Read_Low", "Read_High", "Read_VeryHigh",
+               "Science_VeryLow", "Science_Low", "Science_High", "Science_VeryHigh")
+
+column_names <- c("Depression-yes", "Depression-no", 
+                  "Anxiety-yes", "Anxiety-no", 
+                  "Bipolar-yes", "Bipolar-no", 
+                  "Eating_Disorders-yes", "Eating_Disorders-no", 
+                  "Drug_Related_Disorders-yes", "Drug_Related_Disorders-no", 
+                  "Alcohol_Related_Disorders-yes", "Alcohol_Related_Disorders-no", 
+                  "Schizophrenia-yes", "Schizophrenia-no", 
+                  "Suicide_Male-yes", "Suicide_Male-no", 
+                  "Suicide_Female-yes", "Suicide_Female-no")
+
+# Create an empty contingency table
+contingency_table <- matrix(0, nrow = length(row_names), ncol = length(column_names), dimnames = list(row_names, column_names))
+
+# Loop through each row in the dataframe
+for (i in 1:length(row_names)) {
+  stringVariable <- row_names[i]
+  split_strings <- strsplit(stringVariable, "_")[[1]]
+  variable <- split_strings[1]
+  level <- split_strings[2]
+  for (j in 1:length(column_names)){
+    stringDisorder <- column_names[j]
+    split_strings <- strsplit(stringDisorder, "-")[[1]]
+    disorder <- split_strings[1]
+    yesNo <- split_strings[2]
+    quantity <- sum(MENTAL_HEALTH_Categorical[, variable] == level & MENTAL_HEALTH_Categorical[, disorder] == yesNo)
+    contingency_table[i, j] <- quantity
+  }
+}
+
+# Print the contingency table
+print(contingency_table)
+
+
+
+
+
+
+
+
+
+
