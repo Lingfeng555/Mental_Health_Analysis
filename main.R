@@ -215,6 +215,10 @@ CA_contingency <- CA(contingency_table)
 # Math in blue and Depression in red
 plot(CA_contingency)
 
+# Depression-VeryHigh and Math_High are the most correlated
+# Depression-VeryLow and Math_Low are the second most correlated
+# They are in opposite directions, indicating a negative association between them
+
 summary(CA_contingency)
 
 
