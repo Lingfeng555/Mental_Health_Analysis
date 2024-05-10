@@ -124,36 +124,8 @@ anova(MALE_SUICIDE_MODEL)
 std_mental_health <- MENTAL_HEALTH[, 2:(ncol(MENTAL_HEALTH)-3)] %>% scale
 std_mental_health %>% summary
 
-
-#Check correlations:
-std_mental_health %>% cor
-eig <- std_mental_health %>% cor %>% eigen
-
-#The first value is almost an half of the variatio  
-
-coord <-  t(solve(eig$vectors)%*%t(std_mental_health))
-
-#plot the coordinates
-plot ( coord [ ,1] , coord [ ,2] , xlab =" Component 1", ylab =" Component 2", xlim =c( -1 ,1) , ylim =c ( -1 ,1) , pch =16)
-text ( coord [ ,1] , coord [ ,2] , labels = colnames( std_mental_health ) , cex =1)
-abline ( h =0 , v =0 , lty =2 , col=" lightgray ")
-
-correlations <- NULL
-for (j in 1:ncol(std_mental_health)){
-  fila <- NULL
-  for (i in 1:2){
-    fila <- c(fila,cor(std_mental_health[,i],std_mental_health[,j]))}
-  fila
-  correlations <- rbind(correlations, fila)}   #rbind adds a row 
-rownames(correlations) <- colnames(std_mental_health)
-
-
-plot(correlations,xlim=c(-1,1),ylim=c(-1,1),pch=16,cex=0.3,
-     xlab="Component 1",ylab="Component 2",asp=1)
-draw.circle(0,0,radius=1)
-arrows(x0 = 0,y0 = 0,x1 = correlations[,1],y1=correlations[,2],length=0.1)
-abline(h=0,v=0,lty=2)
-text(correlations[,1],correlations[,2],labels = row.names(correlations),cex=0)
+pca0 <- PCA(X = std_mental_health, scale.unit = TRUE)
+pca0
 
 # Create factors with specified levels for Math, Science, and Read variables
 MENTAL_HEALTH$Math <- factor(MENTAL_HEALTH$Math)
@@ -215,9 +187,6 @@ for (i in 1:length(row_names)) {
 
 # Print the contingency table
 print(contingency_table)
-
-
-
 
 
 
