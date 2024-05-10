@@ -127,6 +127,38 @@ std_mental_health %>% summary
 pca0 <- PCA(X = std_mental_health, scale.unit = TRUE)
 pca0
 
+summary(pca0)
+
+
+pca0$eig
+
+# individual (coordinates)
+pca0$ind$coord
+
+# variables (correlations)
+pca0$var$coord
+
+plot(pca0,choix="ind")
+plot(pca0,choix="var")
+
+# view each individual's contribution to each principle component:
+pca0$ind$contrib
+# verify each principle component's contributions sum up to 100%:
+colSums(pca0$ind$contrib)
+
+
+# cos2 is the squared cosine for each principle component, calculated as (Dim.X/Dist)^2. 
+# The closer it is to 1 for a given principle component, 
+# the better that principle component is at capturing all the characteristics 
+# of that individual.
+(pca0$ind$coord/pca0$ind$dist)^2  #=cos2 for individuals
+#For a variable cos2 is the square of the correlation:
+(pca0$var$cor)^2 #=cos2 for variables
+
+
+
+
+
 # Create factors with specified levels for Math, Science, and Read variables
 MENTAL_HEALTH$Math <- factor(MENTAL_HEALTH$Math)
 MENTAL_HEALTH$Science <- factor(MENTAL_HEALTH$Science)
