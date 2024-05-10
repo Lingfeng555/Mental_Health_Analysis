@@ -158,69 +158,64 @@ colSums(pca0$ind$contrib)
 
 
 
+# CORRESPONDENCE ANALYSIS
 
-# Create factors with specified levels for Math, Science, and Read variables
+# Create factors with specified levels for Math variable
 MENTAL_HEALTH$Math <- factor(MENTAL_HEALTH$Math)
-MENTAL_HEALTH$Science <- factor(MENTAL_HEALTH$Science)
-MENTAL_HEALTH$Read <- factor(MENTAL_HEALTH$Read)
 
-# Create a copy of the original dataset
-MENTAL_HEALTH_Categorical <- MENTAL_HEALTH[, c( "Math", "Science", "Read", "Schizophrenia", "Bipolar", "Anxiety", "Eating_Disorders", "Depression", "Alcohol_Related_Disorders","Drug_Related_Disorders", "Suicide_Male", "Suicide_Female" )]
+# Create a copy of the original dataset with relevant columns
+MENTAL_HEALTH_Categorical <- MENTAL_HEALTH[, c( "Math","Depression")]
 
-# Calculate the average value for each disorder column
-avg_disorders <- colMeans(MENTAL_HEALTH[, c("Schizophrenia", "Bipolar", "Anxiety", "Eating_Disorders", 
-                                            "Depression", "Alcohol_Related_Disorders", "Drug_Related_Disorders", "Suicide_Male", "Suicide_Female")], na.rm = TRUE)
+# Define breaks for categorizing Depression variable into 5 levels
+breaks <- quantile(MENTAL_HEALTH$Depression, probs = seq(0, 1, by = 0.2), na.rm = TRUE)
 
-# Convert the original values to "yes" or "no" based on whether they are above or below the average
-MENTAL_HEALTH_Categorical$Schizophrenia <- factor(ifelse(MENTAL_HEALTH$Schizophrenia > avg_disorders["Schizophrenia"], "yes", "no"))
-MENTAL_HEALTH_Categorical$Bipolar <- factor(ifelse(MENTAL_HEALTH$Bipolar > avg_disorders["Bipolar"], "yes", "no"))
-MENTAL_HEALTH_Categorical$Anxiety <- factor(ifelse(MENTAL_HEALTH$Anxiety > avg_disorders["Anxiety"], "yes", "no"))
-MENTAL_HEALTH_Categorical$Eating_Disorders <- factor(ifelse(MENTAL_HEALTH$Eating_Disorders > avg_disorders["Eating_Disorders"], "yes", "no"))
-MENTAL_HEALTH_Categorical$Depression <- factor(ifelse(MENTAL_HEALTH$Depression > avg_disorders["Depression"], "yes", "no"))
-MENTAL_HEALTH_Categorical$Drug_Related_Disorders <- factor(ifelse(MENTAL_HEALTH$Drug_Related_Disorders > avg_disorders["Drug_Related_Disorders"], "yes", "no"))
-MENTAL_HEALTH_Categorical$Alcohol_Related_Disorders <- factor(ifelse(MENTAL_HEALTH$Alcohol_Related_Disorders > avg_disorders["Alcohol_Related_Disorders"], "yes", "no"))
-MENTAL_HEALTH_Categorical$Suicide_Male <- factor(ifelse(MENTAL_HEALTH$Suicide_Male > avg_disorders["Suicide_Male"], "yes", "no"))
-MENTAL_HEALTH_Categorical$Suicide_Female <- factor(ifelse(MENTAL_HEALTH$Suicide_Female > avg_disorders["Suicide_Female"], "yes", "no"))
+# Convert numerical values to categorical strings
+MENTAL_HEALTH_Categorical$Depression <- cut(MENTAL_HEALTH$Depression, breaks = breaks, labels = c("VeryLow", "Low", "Medium", "High", "VeryHigh"), include.lowest = TRUE)
 
+# Convert the categorical strings to factors
+MENTAL_HEALTH_Categorical$Depression <- factor(MENTAL_HEALTH_Categorical$Depression, levels = c("VeryLow", "Low", "Medium", "High", "VeryHigh"))
 
 # Create vectors for row names and column names
-row_names <- c("Math_VeryLow", "Math_Low", "Math_High", "Math_VeryHigh", 
-               "Read_VeryLow", "Read_Low", "Read_High", "Read_VeryHigh",
-               "Science_VeryLow", "Science_Low", "Science_High", "Science_VeryHigh")
+row_names <- c("Math_Unknown","Math_VeryLow", "Math_Low", "Math_High", "Math_VeryHigh")
 
-column_names <- c("Depression-yes", "Depression-no", 
-                  "Anxiety-yes", "Anxiety-no", 
-                  "Bipolar-yes", "Bipolar-no", 
-                  "Eating_Disorders-yes", "Eating_Disorders-no", 
-                  "Drug_Related_Disorders-yes", "Drug_Related_Disorders-no", 
-                  "Alcohol_Related_Disorders-yes", "Alcohol_Related_Disorders-no", 
-                  "Schizophrenia-yes", "Schizophrenia-no", 
-                  "Suicide_Male-yes", "Suicide_Male-no", 
-                  "Suicide_Female-yes", "Suicide_Female-no")
+column_names <- c("Depression-VeryLow", "Depression-Low","Depression-Medium","Depression-High", "Depression-VeryHigh")
 
-# Create an empty contingency table
-contingency_table <- matrix(0, nrow = length(row_names), ncol = length(column_names), dimnames = list(row_names, column_names))
+# Create a contingency table
+contingency_table <- table(MENTAL_HEALTH_Categorical$Math, MENTAL_HEALTH_Categorical$Depression)
 
-# Loop through each row in the dataframe
-for (i in 1:length(row_names)) {
-  stringVariable <- row_names[i]
-  split_strings <- strsplit(stringVariable, "_")[[1]]
-  variable <- split_strings[1]
-  level <- split_strings[2]
-  for (j in 1:length(column_names)){
-    stringDisorder <- column_names[j]
-    split_strings <- strsplit(stringDisorder, "-")[[1]]
-    disorder <- split_strings[1]
-    yesNo <- split_strings[2]
-    quantity <- sum(MENTAL_HEALTH_Categorical[, variable] == level & MENTAL_HEALTH_Categorical[, disorder] == yesNo)
-    contingency_table[i, j] <- quantity
-  }
-}
+# Create observed contingency table
+observed_table <- contingency_table
+
+# Calculate expected contingency table under independence
+expected_table <- outer(rowSums(observed_table), colSums(observed_table)) / sum(observed_table)
+
+# Perform chi-square test for independence
+chi_square_test <- chisq.test(observed_table) # Gives warning due to low sample size
+
+# Print observed contingency table
+print("Observed Contingency Table:")
+print(observed_table)
+
+# Print expected contingency table under independence
+print("Expected Contingency Table under Independence:")
+print(expected_table)
+
+# Print chi-square test results
+print("Chi-Square Test for Independence:")
+print(chi_square_test)
+
+# X-squared = 34.285 with 16 X2((5-1)·(5-1)) degrees of freedom, p-value = 0.004972 meaning 
+# that there is no significant relationship between the variables thus making them independent.
 
 # Print the contingency table
 print(contingency_table)
 
+CA_contingency <- CA(contingency_table)
 
+# Math in blue and Depression in red
+plot(CA_contingency)
+
+summary(CA_contingency)
 
 
 
