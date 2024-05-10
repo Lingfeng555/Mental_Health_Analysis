@@ -204,8 +204,8 @@ print(expected_table)
 print("Chi-Square Test for Independence:")
 print(chi_square_test)
 
-# X-squared = 34.285 with 16 X2((5-1)·(5-1)) degrees of freedom, p-value = 0.004972 meaning 
-# that there is no significant relationship between the variables thus making them independent.
+# X-squared = 34.285 with 16 X2((5-1)·(5-1)) degrees of freedom, p-value = 0.004972 < 0.05 meaning 
+# that there is a significant relationship between the variables thus making them NOT independent.
 
 # Print the contingency table
 print(contingency_table)
