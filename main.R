@@ -221,7 +221,21 @@ plot(CA_contingency)
 
 summary(CA_contingency)
 
+total_observations <- sum(contingency_table)
 
+M <- chi_square_test$residuals/sqrt(total_observations) # Residuals can also be computed as (xtest$observed-xtest$expected)/sqrt(xtest$expected)
+M <- M%*%t(M)
+eig <- eigen(M)
+#Notice that, as opposed to PCA, in this case eigenvalues can be lower than 1, since the entries of the matrix being 
+# diagonalized are not 1!
+cumulative <- cumsum(eig$values)/sum(eig$values)
+# Scree plot for explained variance
+plot(1:length(eig$values), eig$values,  ylim = c(0, 1.1), type = "b", pch = 19, col = "blue",
+     xlab = "Component", ylab = "Explained Variance",
+     main = "Explained Variance by Component")
+lines(1:length(eig$values), cumulative, type = "b", pch = 19, col = "red")
+legend("topleft", legend = c("Explained Variance", "Cumulative Variance"),
+       col = c("blue", "red"), lty = 1, pch = 19)
 
 
 
