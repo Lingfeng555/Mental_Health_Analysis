@@ -237,5 +237,6 @@ lines(1:length(eig$values), cumulative, type = "b", pch = 19, col = "red")
 legend("topleft", legend = c("Explained Variance", "Cumulative Variance"),
        col = c("blue", "red"), lty = 1, pch = 19)
 
+# From the 3rd component onwards, the explained variance lowers significantly, therefore we can consider only the first 3 components
 
 
