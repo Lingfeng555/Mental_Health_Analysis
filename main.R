@@ -244,6 +244,9 @@ legend("topleft", legend = c("Explained Variance", "Cumulative Variance"),
 # Lista para guardar la suma de las distancias al cuadrado dentro de los clusters
 wss <- numeric()
 
+# Definir las columnas a utilizar
+columns <- c("IQ", "Family", "GDP_Per_Capita", "Happiness", "Life_Expectancy", "Gov_Corruption", "Eating_Disorders")
+
 # Calcular el k-means para diferentes valores de k
 for (k in 1:15) {
   set.seed(123)
@@ -258,9 +261,8 @@ plot(1:15, wss, type = "b", pch = 19, frame = FALSE,
 
 n_cluster = 3
 
-columns <- c("IQ", "Family", "GDP_Per_Capita", "Happiness", "Life_Expectancy", "Gov_Corruption", "Eating_Disorders")
 kmeans_result <- kmeans ( MENTAL_HEALTH[, columns] , centers = n_cluster , nstart = 20)
-fviz_cluster(kmeans_result, data = MENTAL_HEALTH[, columns], geom = "point", stand = FALSE)
+plot(fviz_cluster(kmeans_result, data = MENTAL_HEALTH[, columns], geom = "point", stand = FALSE))
 
 #Lets apply HAC
 centers <- kmeans_result$centers
