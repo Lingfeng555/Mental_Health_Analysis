@@ -7,7 +7,7 @@ Load_Libraries <- function(packages){
   lapply(packages, library, character.only=TRUE)
 }
 
-Load_Libraries(c("dplyr", "faraway", "FactoMineR", "plotrix"))
+Load_Libraries(c("dplyr", "faraway", "FactoMineR", "plotrix", "factoextra"))
 
 # Default Model Building
 
@@ -239,4 +239,35 @@ legend("topleft", legend = c("Explained Variance", "Cumulative Variance"),
 
 # From the 3rd component onwards, the explained variance lowers significantly, therefore we can consider only the first 3 components
 
+########### CLUSTERING ###########
 
+# Lista para guardar la suma de las distancias al cuadrado dentro de los clusters
+wss <- numeric()
+
+# Calcular el k-means para diferentes valores de k
+for (k in 1:15) {
+  set.seed(123)
+  kmeans_result <- kmeans(MENTAL_HEALTH[, columns], centers = k, nstart = 20)
+  wss[k] <- kmeans_result$tot.withinss
+}
+
+plot(1:15, wss, type = "b", pch = 19, frame = FALSE,
+     xlab = "Número de clusters K",
+     ylab = "Total within-clusters sum of squares",
+     main = "Elbow Method for determining the optimal number of clusters")
+
+n_cluster = 3
+
+columns <- c("IQ", "Family", "GDP_Per_Capita", "Happiness", "Life_Expectancy", "Gov_Corruption", "Eating_Disorders")
+kmeans_result <- kmeans ( MENTAL_HEALTH[, columns] , centers = n_cluster , nstart = 20)
+fviz_cluster(kmeans_result, data = MENTAL_HEALTH[, columns], geom = "point", stand = FALSE)
+
+#Lets apply HAC
+centers <- kmeans_result$centers
+
+dist_centers <- dist(centers)
+
+hac_result <- hclust(dist_centers, method = "ward.D2")
+
+plot(hac_result, main = "Dendrogram of K-means Cluster Centers",
+     xlab = "Cluster Centers", sub = "", ylab = "Height")
