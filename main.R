@@ -264,6 +264,21 @@ n_cluster = 3
 kmeans_result <- kmeans ( MENTAL_HEALTH[, columns] , centers = n_cluster , nstart = 20)
 plot(fviz_cluster(kmeans_result, data = MENTAL_HEALTH[, columns], geom = "point", stand = FALSE))
 
+MENTAL_HEALTH$Cluster <- as.factor(kmeans_result$cluster)
+
+# Use PCA to reduce dimensions
+pca_result <- prcomp(MENTAL_HEALTH[, columns], scale. = TRUE)
+pca_data <- data.frame(pca_result$x[, 1:2], Cluster = MENTAL_HEALTH$Cluster, Country = MENTAL_HEALTH$Country)
+
+# Plot 
+ggplot(pca_data, aes(x = PC1, y = PC2, color = Cluster, label = Country)) +
+  geom_point(size = 2) +
+  geom_text(aes(label=Country), hjust=1, vjust=1, size=3) +
+  labs(title = "Cluster Visualization using K-means",
+       x = "Principal Component 1",
+       y = "Principal Component 2") +
+  theme_minimal()
+
 #Lets apply HAC
 centers <- kmeans_result$centers
 
@@ -273,3 +288,6 @@ hac_result <- hclust(dist_centers, method = "ward.D2")
 
 plot(hac_result, main = "Dendrogram of K-means Cluster Centers",
      xlab = "Cluster Centers", sub = "", ylab = "Height")
+
+
+
